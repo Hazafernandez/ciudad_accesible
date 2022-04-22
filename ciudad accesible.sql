@@ -1,4 +1,4 @@
-/*creando base de datos*/
+/*creando base de datos sql*/
 
 CREATE DATABASE administrador;
 USE administrador;
