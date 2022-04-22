@@ -1,3 +1,5 @@
+/*creando base de datos*/
+
 CREATE DATABASE administrador;
 USE administrador;
 CREATE TABLE Incidencias
