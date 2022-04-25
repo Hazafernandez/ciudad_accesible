@@ -6,15 +6,16 @@ async function main() {
   let connection;
 
   console.log('main');
+  // Creacion de base de datos
 
   try {
     connection = await getConnection();
 
-    console.log('borrando tablas existentes');
+    console.log('Borrando tablas existentes');
     await connection.query('DROP TABLE IF EXISTS issues');
     await connection.query('DROP TABLE IF EXISTS users');
 
-    console.log('creando tablas');
+    console.log('Creando tablas');
     await connection.query(`
         CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTO_INCREMENT, 
