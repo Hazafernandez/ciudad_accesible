@@ -19,7 +19,7 @@ async function main() {
     await connection.query(`
         CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTO_INCREMENT, 
-            username VARCHAR(100) UNIQUE NOT NULL,
+            username VARCHAR(100) UNIQUE,
             email VARCHAR(100) UNIQUE NOT NULL,
             password VARCHAR(100) NOT NULL,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP          
