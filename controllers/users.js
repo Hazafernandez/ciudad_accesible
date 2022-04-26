@@ -14,7 +14,7 @@ const newUserController = async (req, res, next) => {
 
     res.send({
       status: 'ok',
-      message: 'User created with id: ${id}',
+      message: `User created with id: ${id}`,
     });
   } catch (error) {
     next(error);
