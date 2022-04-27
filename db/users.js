@@ -11,7 +11,8 @@ const createUser = async (email, password) => {
     //Comprobar que no exista otro usuario con ese email y nick
     const [user] = await connection.query(
       `
-        SELECT id FROM users WHERE email = ?`,
+        SELECT id FROM users WHERE email = ?
+      `,
       [email]
     );
 
@@ -28,8 +29,8 @@ const createUser = async (email, password) => {
     //Crear el usuario
     const [newUser] = await connection.query(
       `
-        INSERT INTO users (email, password) VALUES(?,?)
-        `,
+        INSERT INTO users (email, password) VALUES(?, ?)
+      `,
       [email, passwordHash]
     );
 
