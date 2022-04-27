@@ -30,9 +30,9 @@ async function main() {
    CREATE TABLE issues (
        id INTEGER PRIMARY KEY AUTO_INCREMENT, 
        user_id INTEGER NOT NULL,
-       tittle VARCHAR(200) NOT NULL,
-       description VARCHAR(200) NOT NULL,
-       image VARCHAR(100) NOT NULL,
+       title VARCHAR(200) NOT NULL,
+       description VARCHAR(500) NOT NULL,
+       image VARCHAR(100),
        city VARCHAR(200) NOT NULL,
        hood VARCHAR(200) NOT NULL,
        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,

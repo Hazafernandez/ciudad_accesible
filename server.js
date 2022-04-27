@@ -17,6 +17,8 @@ const {
   updateIssueController,
 } = require('./controllers/issues');
 
+const { authUser } = require('./middlewares/auth');
+
 const app = express();
 
 // para que intente procesar los datos formato JSON de las peticiones postman
@@ -31,8 +33,8 @@ app.get('/user/:id', getUserController);
 app.post('/login', loginController);
 
 //Rutas de incidencias (issues)
+app.post('/', authUser, newIssueController);
 app.get('/', getIssuesController);
-app.post('/', newIssueController);
 app.get('/issue/:id', getIssueController);
 app.delete('/issue/:id', deleteIssueController); // ¿queremos borrar? creo que no
 app.put('/issue/:id', updateIssueController); // actualizar/dar por finalizado
