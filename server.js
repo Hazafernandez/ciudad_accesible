@@ -52,7 +52,7 @@ app.use((error, req, res, next) => {
 
   res.status(error.httpStatus || 500).send({
     error: 'error',
-    message: 'error.message',
+    message: error.message,
   });
 });
 

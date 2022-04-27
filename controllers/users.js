@@ -11,6 +11,7 @@ const newUserController = async (req, res, next) => {
     }
 
     const id = await createUser(email, password);
+    console.log(id);
 
     res.send({
       status: 'ok',
