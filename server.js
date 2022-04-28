@@ -38,8 +38,8 @@ app.get('/user/:id', getUserController);
 app.post('/login', loginController);
 
 //Rutas de incidencias (issues)
-app.post('/', authUser, newIssueController);
-app.get('/', getIssuesController);
+app.post('/', authUser, newIssueController); // /issue
+app.get('/', getIssuesController); //issues
 app.get('/issue/:id', getSingleIssueController);
 app.delete('/issue/:id', deleteIssueController); // ¿queremos borrar? creo que no
 app.put('/issue/:id', updateIssueController); // actualizar/dar por finalizado
@@ -63,7 +63,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Lanzamos el servidor
+// Lanzamos el servidor --- Guardar mejor en el .env. Poner console.log(url)
 app.listen(3000, () => {
   console.log('Servidor funcionando...');
 });
