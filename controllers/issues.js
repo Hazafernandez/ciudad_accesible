@@ -1,22 +1,28 @@
-const { createIssue } = require('../db/issues');
-const { generateError } = require('../helpers');
+const { createIssue, getAllIssues, getIssueById } = require('../db/issues');
+const { generateError, createPathIfNotExists } = require('../helpers');
+const path = require('path');
+const sharp = require('sharp');
+const { nanoid } = require('nanoid');
 
 const getIssuesController = async (req, res, next) => {
   try {
+    const issues = await getAllIssues();
     res.send({
-      status: 'error',
-      message: 'Not implemented',
+      status: 'ok',
+      data: issues,
     });
   } catch (error) {
     next(error);
   }
 };
 
-const getIssueController = async (req, res, next) => {
+const getSingleIssueController = async (req, res, next) => {
   try {
+    const { id } = req.params;
+    const issue = await getIssueById(id);
     res.send({
-      status: 'error',
-      message: 'Not implemented',
+      status: 'ok',
+      message: issue,
     });
   } catch (error) {
     next(error);
@@ -26,6 +32,9 @@ const getIssueController = async (req, res, next) => {
 const newIssueController = async (req, res, next) => {
   // esto solo debe dejarlo al usuario que esté registrado (email y token) y <<además sea admin>>
   try {
+    console.log(req.body);
+    console.log(req.files);
+
     const { title } = req.body;
     if (!title || title.length > 200) {
       throw generateError(
@@ -67,8 +76,33 @@ const newIssueController = async (req, res, next) => {
         400
       );
     } */
+    let imageFileName;
 
-    const id = await createIssue(req.userId, title, description, city, hood);
+    if (req.files && req.files.image) {
+      //Creamos path del directorio uploads
+      const uploadsDir = path.join(__dirname, '../uploads');
+
+      //Creamos directorio si no existe
+      await createPathIfNotExists(uploadsDir);
+
+      //Procesar imagen
+      const image = sharp(req.files.image.data);
+      //image.resize(800);
+
+      // Guardamos la imagen con nombre aleatorio en uploads
+      imageFileName = `${nanoid(25)}.jpg`;
+
+      await image.toFile(path.join(uploadsDir, imageFileName));
+    }
+
+    const id = await createIssue(
+      req.userId,
+      title,
+      description,
+      city,
+      hood,
+      imageFileName
+    );
     res.send({
       status: 'ok',
       message: `Nueva incidencia de accesibilidad creada con id: ${id}`,
@@ -104,7 +138,7 @@ const updateIssueController = async (req, res, next) => {
 
 module.exports = {
   getIssuesController,
-  getIssueController,
+  getSingleIssueController,
   newIssueController,
   deleteIssueController,
   updateIssueController,
