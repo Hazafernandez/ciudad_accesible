@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
 
 const {
   newUserController,
@@ -11,7 +12,7 @@ const {
 
 const {
   getIssuesController,
-  getIssueController,
+  getSingleIssueController,
   newIssueController,
   deleteIssueController,
   updateIssueController,
@@ -21,10 +22,14 @@ const { authUser } = require('./middlewares/auth');
 
 const app = express();
 
+// para que compruebe si la petición tiene algún tipo de archivo binario (imagenes aquí) y lo prepare para leerlo
+app.use(fileUpload());
 // para que intente procesar los datos formato JSON de las peticiones postman
 app.use(express.json());
 // primer middleware es llamar a morgan
 app.use(morgan('dev'));
+// le decimos a express que sirva el directorio uploads como dir estatico
+app.use('/uploads', express.static('./uploads'));
 
 //Rutas (controladores que gestionan las rutas: users e issues)
 //Rutas de usuario (users)
@@ -35,7 +40,7 @@ app.post('/login', loginController);
 //Rutas de incidencias (issues)
 app.post('/', authUser, newIssueController);
 app.get('/', getIssuesController);
-app.get('/issue/:id', getIssueController);
+app.get('/issue/:id', getSingleIssueController);
 app.delete('/issue/:id', deleteIssueController); // ¿queremos borrar? creo que no
 app.put('/issue/:id', updateIssueController); // actualizar/dar por finalizado
 
