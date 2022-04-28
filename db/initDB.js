@@ -22,9 +22,10 @@ async function main() {
             username VARCHAR(100) UNIQUE,
             email VARCHAR(100) UNIQUE NOT NULL,
             password VARCHAR(100) NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP          
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                  
             )
-   `);
+   `); // añadir rol admin/ normal
 
     await connection.query(`
    CREATE TABLE issues (
@@ -39,6 +40,8 @@ async function main() {
        FOREIGN KEY (user_id) REFERENCES users(id)        
        )
 `);
+
+    // INSERT EN users de admin
   } catch (error) {
     console.error(error);
   } finally {
