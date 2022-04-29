@@ -12,18 +12,19 @@ async function main() {
     connection = await getConnection();
 
     console.log('Borrando tablas existentes');
+    await connection.query('DROP TABLE IF EXISTS likes');
     await connection.query('DROP TABLE IF EXISTS issues');
     await connection.query('DROP TABLE IF EXISTS users');
 
     console.log('Creando tablas');
     await connection.query(`
         CREATE TABLE users (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT, 
-            username VARCHAR(100) UNIQUE,
-            email VARCHAR(100) UNIQUE NOT NULL,
-            password VARCHAR(100) NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                  
+          id INTEGER PRIMARY KEY AUTO_INCREMENT, 
+          username VARCHAR(100) UNIQUE,
+          email VARCHAR(100) UNIQUE NOT NULL,
+          password VARCHAR(100) NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          role ENUM('admin','normal')  
             )
    `); // añadir rol admin/ normal
 
@@ -37,11 +38,21 @@ async function main() {
        city VARCHAR(200) NOT NULL,
        hood VARCHAR(200) NOT NULL,
        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+       role ENUM('resuelto','pendiente') DEFAULT "pendiente" NOT NULL,
        FOREIGN KEY (user_id) REFERENCES users(id)        
        )
 `);
-
-    // INSERT EN users de admin
+    await connection.query(`
+   CREATE TABLE likes(
+       id INTEGER PRIMARY KEY AUTO_INCREMENT, 
+       user_id INTEGER NOT NULL,
+       issue_id INTEGER NOT NULL,
+       FOREIGN KEY (user_id) REFERENCES users(id),
+       FOREIGN KEY (issue_id) REFERENCES issues(id)      
+       )
+`);
+    // INSERT EN dentro de la tabla usser del usuario admin, le damos correo y contraseña que queramos nosotros
+    //pasarle el rol de admin
   } catch (error) {
     console.error(error);
   } finally {
