@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const { getConnection } = require('./db');
+const bcrypt = require('bcrypt');
 
 async function main() {
   let connection;
@@ -26,7 +27,7 @@ async function main() {
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           role ENUM('admin','normal')  
             )
-   `); // añadir rol admin/ normal
+   `);
 
     await connection.query(`
    CREATE TABLE issues (
@@ -38,7 +39,7 @@ async function main() {
        city VARCHAR(200) NOT NULL,
        hood VARCHAR(200) NOT NULL,
        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-       role ENUM('resuelto','pendiente') DEFAULT "pendiente" NOT NULL,
+       status ENUM('resuelto','pendiente') DEFAULT "pendiente",
        FOREIGN KEY (user_id) REFERENCES users(id)        
        )
 `);
@@ -51,8 +52,20 @@ async function main() {
        FOREIGN KEY (issue_id) REFERENCES issues(id)      
        )
 `);
-    // INSERT EN dentro de la tabla usser del usuario admin, le damos correo y contraseña que queramos nosotros
-    //pasarle el rol de admin
+
+    console.log('Creando usuario administrador');
+    const passwordHash = await bcrypt.hash(
+      process.env.DEFAULT_ADMIN_PASSWORD,
+      8
+    );
+
+    // Creamos el user "admin" automáticamente con email y password definida en el archivo .env.
+    await connection.query(
+      `
+  INSERT INTO users(username, email, password, role)
+  VALUES("${process.env.DEFAULT_ADMIN_USERNAME}","${process.env.DEFAULT_ADMIN_EMAIL}", "${passwordHash}", "admin")
+`
+    );
   } catch (error) {
     console.error(error);
   } finally {
