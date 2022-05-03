@@ -14,8 +14,8 @@ const {
   getIssuesController,
   getSingleIssueController,
   newIssueController,
-  deleteIssueController,
   updateIssueController,
+  getIssuesByHoodController,
 } = require('./controllers/issues');
 
 const { authUser } = require('./middlewares/auth');
@@ -31,18 +31,18 @@ app.use(morgan('dev'));
 // le decimos a express que sirva el directorio uploads como dir estatico
 app.use('/uploads', express.static('./uploads'));
 
-//Rutas (controladores que gestionan las rutas: users e issues)
+//Rutas (controladores que gestionan las rutas: users e issues):
 //Rutas de usuario (users)
 app.post('/user', newUserController);
 app.get('/user/:id', getUserController);
 app.post('/login', loginController);
 
 //Rutas de incidencias (issues)
-app.post('/issue', authUser, newIssueController); // /issue
+app.post('/issue', authUser, newIssueController); // issue
 app.get('/issues', getIssuesController); //issues
 app.get('/issue/:id', getSingleIssueController);
-app.delete('/issue/:id', deleteIssueController); // ¿queremos borrar? creo que no
-app.put('/issue/:id', updateIssueController); // actualizar/dar por finalizado
+app.get('/issues/:id', getIssuesByHoodController); //isues por barrio
+app.put('/issue/:id', authUser, updateIssueController); // actualizar/dar por finalizado
 
 //1. Middleware que se encarga de gestionar lo que no pasa por el resto de rutas
 // Middleware de 404 - Not found.
@@ -66,4 +66,4 @@ app.use((error, req, res, next) => {
 // Lanzamos el servidor --- Guardar mejor en el .env. Poner console.log(url)
 app.listen(3000, () => {
   console.log('Servidor funcionando...');
-}); 
+});

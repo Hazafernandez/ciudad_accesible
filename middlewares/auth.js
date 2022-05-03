@@ -4,6 +4,7 @@ const { generateError } = require('../helpers');
 const authUser = (req, res, next) => {
   try {
     const { authorization } = req.headers;
+    console.log(authorization);
     if (!authorization) {
       throw generateError('Falta la cabezera de authorization', 404);
     }
