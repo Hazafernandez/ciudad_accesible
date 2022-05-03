@@ -15,10 +15,10 @@ const {
   getSingleIssueController,
   newIssueController,
   updateIssueController,
-  getIssuesByHoodController,
 } = require('./controllers/issues');
 
 const { authUser } = require('./middlewares/auth');
+//const { isAdmin } = require('./middlewares/isAdmin');
 
 const app = express();
 
@@ -32,25 +32,37 @@ app.use(morgan('dev'));
 app.use('/uploads', express.static('./uploads'));
 
 //Rutas (controladores que gestionan las rutas: users e issues):
-//Rutas de usuario (users)
+//--Rutas de usuario (users):
+//1. end-point que registra un nuevo usuario.
 app.post('/user', newUserController);
+//2. end-point que obtiene usuario por id.
 app.get('/user/:id', getUserController);
+//3. end-point que logea usuario existente.
 app.post('/login', loginController);
 
-//Rutas de incidencias (issues)
+//--Rutas de incidencias (issues).
+//1. endpoint que registra un nuevo usuario.
 app.post('/issue', authUser, newIssueController); // issue
-// end-point que devuelve las issues
+//2. end-point que devuelve las issues
 // Ej: http://localhost:3000/issues?city=madrid&hood=chueca&status=active
-app.get('/issues', getIssuesController); //issues
+app.get('/issues', getIssuesController);
+//3. end-point que devuelve una incidencia por id.
 app.get('/issue/:id', getSingleIssueController);
-/* app.get(
-  '/issues/ciudad/:ciudad/barrio/:barrio',
-  getIssuesByHoodController
-);  */ //isues por barrio
-app.put('/issue/:id', authUser, updateIssueController); // actualizar/dar por finalizado
+//4. end-point que actualiza el estado de la incidencia(resuelto/pendiente)
+app.put('/issue/:id', authUser, updateIssueController);
 
-//1. Middleware que se encarga de gestionar lo que no pasa por el resto de rutas
-// Middleware de 404 - Not found.
+// Like a una incidencia
+// POST - /likes/:id/votes ✅
+// Sólo usuarios registrados
+//app.post("/issue/:id/likes", authUser, entryExists, voteEntry);
+
+// Ver votos de una entrada
+// GET - /entries/:id/votes ✅
+// Público
+//app.get("/entries/:id/votes", entryExists, getEntryVotes);
+
+//--Middleware que se encarga de gestionar lo que no pasa por el resto de rutas
+//1. Middleware de 404 - Not found.
 app.use((req, res) => {
   res.status(404).send({
     status: 'error',
@@ -58,7 +70,7 @@ app.use((req, res) => {
   });
 });
 
-// Middleware de error.
+//2. Middleware de error.
 app.use((error, req, res, next) => {
   console.error(error);
 
@@ -68,7 +80,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Lanzamos el servidor --- Guardar mejor en el .env. Poner console.log(url)
 app.listen(3000, () => {
   console.log('Servidor funcionando...');
 });

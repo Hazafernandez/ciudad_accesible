@@ -5,15 +5,18 @@ const { createUser, getUserById, getUserByEmail } = require('../db/users');
 
 const newUserController = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { username, email, password } = req.body;
 
-    // DEBERIA SER SUSTITUIDO POR JOI -----
     if (!email || !password) {
       throw generateError('Debes introducir email y password', 400);
     }
 
-    const id = await createUser(email, password);
-    console.log(id);
+    if (!username) {
+      throw generateError('Debes introducir username', 400);
+    }
+
+    const id = await createUser(username, email, password);
+    console.log('DATOS A INTRODUCIR NUEVO USUARIO', id);
 
     res.send({
       status: 'ok',

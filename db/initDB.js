@@ -44,10 +44,11 @@ async function main() {
        )
 `);
     await connection.query(`
-   CREATE TABLE likes(
+   CREATE TABLE likes (
        id INTEGER PRIMARY KEY AUTO_INCREMENT, 
        user_id INTEGER NOT NULL,
        issue_id INTEGER NOT NULL,
+       likes TINYINT NOT NULL,
        FOREIGN KEY (user_id) REFERENCES users(id),
        FOREIGN KEY (issue_id) REFERENCES issues(id)      
        )
