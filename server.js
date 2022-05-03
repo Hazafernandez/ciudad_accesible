@@ -39,9 +39,14 @@ app.post('/login', loginController);
 
 //Rutas de incidencias (issues)
 app.post('/issue', authUser, newIssueController); // issue
+// end-point que devuelve las issues
+// Ej: http://localhost:3000/issues?city=madrid&hood=chueca&status=active
 app.get('/issues', getIssuesController); //issues
 app.get('/issue/:id', getSingleIssueController);
-app.get('/issues/:id', getIssuesByHoodController); //isues por barrio
+/* app.get(
+  '/issues/ciudad/:ciudad/barrio/:barrio',
+  getIssuesByHoodController
+);  */ //isues por barrio
 app.put('/issue/:id', authUser, updateIssueController); // actualizar/dar por finalizado
 
 //1. Middleware que se encarga de gestionar lo que no pasa por el resto de rutas

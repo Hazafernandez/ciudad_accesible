@@ -1,3 +1,4 @@
+const { query } = require('express');
 const { generateError } = require('../helpers');
 const { getConnection } = require('./db');
 
@@ -53,15 +54,49 @@ const getIssueByHood = async (city, hood) => {
 
 /////////////
 
-const getAllIssues = async () => {
+const getAllIssues = async (req) => {
   let connection;
   try {
     connection = await getConnection();
 
-    const [result] = await connection.query(`
-    SELECT * FROM issues ORDER BY created_at DESC
-    `);
-    return result;
+    // saco el query string
+    const { city, hood, status } = req.query;
+    const validStatus = ['pendiente', 'resuelto'];
+    let result;
+    const statusIssue = validStatus.includes(status) ? status : '';
+
+    if (city && hood) {
+      result = await connection.query(
+        `
+      SELECT * FROM ciudad_accesible.issues 
+      WHERE city=? AND hood=? ${
+        statusIssue ? `AND status="${statusIssue}"` : ''
+      } 
+      ORDER BY created_at DESC`,
+        [city, hood]
+      );
+    } else if (city) {
+      result = await connection.query(
+        `
+      SELECT * FROM ciudad_accesible.issues WHERE city=? ${
+        statusIssue ? `AND status="${statusIssue}"` : ''
+      } 
+      ORDER BY created_at DESC
+      `,
+        [city]
+      );
+    } else {
+      result = await connection.query(
+        `
+      SELECT * FROM ciudad_accesible.issues 
+      ${statusIssue ? `WHERE status="${statusIssue}"` : ''} 
+      ORDER BY created_at DESC
+      `,
+        [city, hood]
+      );
+    }
+
+    return result[0];
   } finally {
     if (connection) connection.release();
   }
