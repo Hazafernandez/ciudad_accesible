@@ -25,7 +25,7 @@ async function main() {
           email VARCHAR(100) UNIQUE NOT NULL,
           password VARCHAR(100) NOT NULL,
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-          role ENUM('admin','normal')  
+          role ENUM('admin','normal') DEFAULT "normal" NOT NULL  
             )
    `);
 
@@ -53,13 +53,13 @@ async function main() {
        )
 `);
 
+    // Creamos el user "admin" automáticamente con email y password definida en el archivo .env.
     console.log('Creando usuario administrador');
     const passwordHash = await bcrypt.hash(
       process.env.DEFAULT_ADMIN_PASSWORD,
       8
     );
 
-    // Creamos el user "admin" automáticamente con email y password definida en el archivo .env.
     await connection.query(
       `
   INSERT INTO users(username, email, password, role)
