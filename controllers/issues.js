@@ -15,7 +15,7 @@ const { status } = require('express/lib/response');
 
 const getIssuesController = async (req, res, next) => {
   try {
-    const issues = await getAllIssues();
+    const issues = await getAllIssues(req);
     res.send({
       status: 'ok',
       data: issues,
