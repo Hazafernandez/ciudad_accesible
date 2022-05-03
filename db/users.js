@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const { generateError } = require('../helpers');
 const { getConnection } = require('./db');
 
-// Login de usuario por email
+// Obtener usuario por email.
 const getUserByEmail = async (email) => {
   let connection;
   try {
@@ -23,7 +23,7 @@ const getUserByEmail = async (email) => {
   }
 };
 
-// Devuelve la información públic de un usuario por su id
+// Devuelve la información pública de un usuario por su id
 const getUserById = async (id) => {
   let connection;
   try {
@@ -45,7 +45,7 @@ const getUserById = async (id) => {
 };
 
 // Crea un usuario en la base de datos y devuelve la id
-const createUser = async (email, password) => {
+const createUser = async (username, email, password) => {
   let connection;
 
   try {
@@ -53,7 +53,7 @@ const createUser = async (email, password) => {
     //Comprobar que no exista otro usuario con ese email y nick
     const [user] = await connection.query(
       `
-        SELECT id FROM users WHERE email = ?
+        SELECT id, username FROM users WHERE email = ?
       `,
       [email]
     );
@@ -64,6 +64,12 @@ const createUser = async (email, password) => {
         409
       );
     }
+    if (user.username === username) {
+      throw generateError(
+        'Ya existe un usuario en la base de datos con ese username',
+        409
+      );
+    }
 
     //Encriptar la password
     const passwordHash = await bcrypt.hash(password, 8);
@@ -71,10 +77,11 @@ const createUser = async (email, password) => {
     //Crear el usuario
     const [newUser] = await connection.query(
       `
-        INSERT INTO users (email, password) VALUES(?, ?)
+        INSERT INTO users (username, email, password) VALUES(?, ?, ?)
       `,
-      [email, passwordHash]
+      [username, email, passwordHash]
     );
+    console.log('datos nuevo usuario regist', newUser);
 
     //Devolver la id
     return newUser.insertId;
