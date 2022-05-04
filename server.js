@@ -1,3 +1,4 @@
+// utilizo modulo dotenv para leer variables de entorno desde .env
 require('dotenv').config();
 
 const express = require('express');
