@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "7223dd17-2ae6-42ed-9eb0-f62115401e60",
+		"name": "ciudad-accesible",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"username\": \"haza2\",\r\n\"email\": \"haza10@email.com\",\r\n\"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/user/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/user/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@email.com\",\r\n    \"password\": \"admin\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "issues",
+			"item": [
+				{
+					"name": "New Issue",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUzNjYxMzc0LCJleHAiOjE2NTg4NDUzNzR9.hc6_ShKTg6cWPvDfWEOCOBVJXmsj4jIsQ3PZLjoHVnQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "la incidencia",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "No es posible blablabla",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Ourense",
+									"type": "text"
+								},
+								{
+									"key": "hood",
+									"value": "O vinteun",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/isran/Desktop/imgPrueba/mal-aparcado.jpg"
+								},
+								{
+									"key": "status",
+									"value": "pendiente",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/issue",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Issues",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/issues?hood=Couto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"issues"
+							],
+							"query": [
+								{
+									"key": "hood",
+									"value": "Couto"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Issue",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/issue/4",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"issue",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Single Issue",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjUxNTk1OTM4LCJleHAiOjE2NTY3Nzk5Mzh9.uRIdeucGG3wo-T4R-vqYWCEBK-i1oW2KnZkWqF8z8lc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"status\": \"pendiente\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/issue/2",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"issue",
+								"2"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "Ourense",
+									"disabled": true
+								},
+								{
+									"key": "hood",
+									"value": "Couto",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
