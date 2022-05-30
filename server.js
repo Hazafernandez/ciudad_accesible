@@ -1,6 +1,7 @@
 // utilizo modulo dotenv para leer variables de entorno desde .env
 require('dotenv').config();
 
+const cors =require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const fileUpload = require('express-fileupload');
@@ -22,6 +23,8 @@ const { authUser } = require('./middlewares/auth');
 //const { isAdmin } = require('./middlewares/isAdmin');
 
 const app = express();
+
+app.use(cors());
 
 // para que compruebe si la petición tiene algún tipo de archivo binario (imagenes aquí) y lo prepare para leerlo
 app.use(fileUpload());
