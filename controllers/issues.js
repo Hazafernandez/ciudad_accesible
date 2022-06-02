@@ -30,7 +30,7 @@ const getSingleIssueController = async (req, res, next) => {
     const issue = await getIssueById(id);
     res.send({
       status: 'ok',
-      message: issue,
+      data: issue,
     });
   } catch (error) {
     next(error);
