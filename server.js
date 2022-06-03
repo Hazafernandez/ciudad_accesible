@@ -1,7 +1,7 @@
 // utilizo modulo dotenv para leer variables de entorno desde .env
 require('dotenv').config();
 
-const cors =require('cors');
+const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const fileUpload = require('express-fileupload');
@@ -10,6 +10,7 @@ const {
   newUserController,
   getUserController,
   loginController,
+  getUserInfoController,
 } = require('./controllers/users');
 
 const {
@@ -43,9 +44,11 @@ app.post('/user', newUserController);
 app.get('/user/:id', getUserController);
 //3. end-point que logea usuario existente.
 app.post('/login', loginController);
+//4. end-point que obtiene información de usuario según token.
+app.get('/user', authUser, getUserInfoController);
 
 //--Rutas de incidencias (issues).
-//1. endpoint que registra un nuevo usuario.
+//1. endpoint que registra una nueva incidencia.
 app.post('/issue', authUser, newIssueController); // issue
 //2. end-point que devuelve las issues
 // Ej: http://localhost:3000/issues?city=madrid&hood=chueca&status=active

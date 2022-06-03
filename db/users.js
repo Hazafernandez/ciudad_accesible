@@ -27,6 +27,7 @@ const getUserByEmail = async (email) => {
 const getUserById = async (id) => {
   let connection;
   try {
+    console.log('id del controlador', id); // a borrar si funciona.
     connection = await getConnection();
     const [result] = await connection.query(
       `
@@ -37,6 +38,27 @@ const getUserById = async (id) => {
 
     if (result.length === 0) {
       throw generateError('No hay ningún usuario con esa id', 404);
+    }
+    return result[0];
+  } finally {
+    if (connection) connection.release();
+  }
+};
+
+// Devuelve la información pública de un usuario por su Pasword
+const getUserByPassword = async (password) => {
+  let connection;
+  try {
+    connection = await getConnection();
+    const [result] = await connection.query(
+      `
+    SELECT id, username, email, created_at FROM users WHERE password = ? 
+    `,
+      [password]
+    );
+
+    if (result.length === 0) {
+      throw generateError('No hay ningún usuario con ese Token', 404);
     }
     return result[0];
   } finally {
@@ -94,4 +116,5 @@ module.exports = {
   createUser,
   getUserById,
   getUserByEmail,
+  getUserByPassword,
 };

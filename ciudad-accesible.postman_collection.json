@@ -2,7 +2,8 @@
 	"info": {
 		"_postman_id": "7223dd17-2ae6-42ed-9eb0-f62115401e60",
 		"name": "ciudad-accesible",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20416922"
 	},
 	"item": [
 		{
@@ -15,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\"username\": \"haza2\",\r\n\"email\": \"haza10@email.com\",\r\n\"password\": \"1234\"\r\n}",
+							"raw": "{\r\n\"username\": \"haza2\",\r\n\"email\": \"haza1a0@email.com\",\r\n\"password\": \"1234\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -38,9 +39,16 @@
 				},
 				{
 					"name": "Get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "localhost:3000/user/1",
 							"host": [
@@ -77,6 +85,30 @@
 							"port": "3000",
 							"path": [
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjU0MjQwMTc0LCJleHAiOjE2NTk0MjQxNzR9.j-Yi9INydGdNBcKHQhAP-HixTvRBEyctd_MKhyjj2sA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user"
 							]
 						}
 					},
@@ -178,14 +210,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:3000/issue/4",
+							"raw": "localhost:3000/issue/2",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"issue",
-								"4"
+								"2"
 							]
 						}
 					},

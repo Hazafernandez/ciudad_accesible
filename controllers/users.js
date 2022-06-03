@@ -29,6 +29,7 @@ const newUserController = async (req, res, next) => {
 
 const getUserController = async (req, res, next) => {
   try {
+    console.log('req.userId:', req.userId);
     const { id } = req.params;
 
     const user = await getUserById(id);
@@ -77,9 +78,27 @@ const loginController = async (req, res, next) => {
     next(error);
   }
 };
+// nuevo controller para obtener información segun token
+const getUserInfoController = async (req, res, next) => {
+  try {
+    console.log('req.userId:', req.userId);
+    const id = req.userId;
+    console.log('Objeto id:', id);
+
+    const user = await getUserById(id);
+
+    res.send({
+      status: 'ok',
+      message: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 module.exports = {
   newUserController,
   getUserController,
   loginController,
+  getUserInfoController,
 };

@@ -4,7 +4,7 @@ const { generateError } = require('../helpers');
 const authUser = (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    console.log(authorization);
+    console.log('Authorization del authUser', authorization);
     if (!authorization) {
       throw generateError('Falta la cabezera de authorization', 404);
     }
@@ -19,8 +19,9 @@ const authUser = (req, res, next) => {
     }
 
     console.log('token------', token);
+    console.log('token id:', token.id); // a borrar si funciona (OK HASTA AQUI FUNCIONA)
 
-    //Metemos la información del token en la requesta para usarla en el controlador
+    //Metemos la información del token en la request para usarla en el controlador
     req.userId = token.id; // el nombre de "userId" lo decicimos nosotros. Al ser req objeto de js.
 
     //Saltamos al controlador
