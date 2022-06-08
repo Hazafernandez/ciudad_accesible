@@ -36,7 +36,7 @@ app.use(morgan('dev'));
 // le decimos a express que sirva el directorio uploads como dir estatico
 app.use('/uploads', express.static('./uploads'));
 
-//Rutas (controladores que gestionan las rutas: users e issues):
+//--Rutas (controladores que gestionan las rutas: users e issues):
 //--Rutas de usuario (users):
 //1. end-point que registra un nuevo usuario.
 app.post('/user', newUserController);
@@ -51,7 +51,7 @@ app.get('/user', authUser, getUserInfoController);
 //1. end-point que registra una nueva incidencia.
 app.post('/issue', authUser, newIssueController); // issue
 //2. end-point que devuelve las issues
-// Ej: http://localhost:3000/issues?city=madrid&hood=chueca&status=active
+// En el caso de querer obtener por ciudad/barrio, Ej: http://localhost:3000/issues?city=madrid&hood=chueca&status=active
 app.get('/issues', getIssuesController);
 //3. end-point que devuelve una incidencia por id.
 app.get('/issue/:id', getSingleIssueController);

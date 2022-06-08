@@ -102,17 +102,14 @@ const newIssueController = async (req, res, next) => {
       hood,
       imageFileName
     );
+
+    const issue = await getIssueById(id);
+
     console.log('USER NUEVA INCIDENCIA', req.userId);
     res.send({
       status: 'ok',
       message: `Nueva incidencia de accesibilidad creada con id: ${id}`,
-      data: {
-        title,
-        description,
-        city,
-        hood,
-        imageFileName,
-      },
+      data: issue,
     });
   } catch (error) {
     next(error);
