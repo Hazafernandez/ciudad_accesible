@@ -41,7 +41,7 @@ const newIssueController = async (req, res, next) => {
   console.log('req HEADEEEEERS', req.headers);
   // esto solo debe dejarlo al usuario que esté registrado (email y token) y <<además sea admin>>
   try {
-    console.log(req.body);
+    console.log('REQBODY', req.body);
 
     const { title } = req.body;
     if (!title || title.length > 200) {
@@ -106,6 +106,13 @@ const newIssueController = async (req, res, next) => {
     res.send({
       status: 'ok',
       message: `Nueva incidencia de accesibilidad creada con id: ${id}`,
+      data: {
+        title,
+        description,
+        city,
+        hood,
+        imageFileName,
+      },
     });
   } catch (error) {
     next(error);

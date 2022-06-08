@@ -48,7 +48,7 @@ app.post('/login', loginController);
 app.get('/user', authUser, getUserInfoController);
 
 //--Rutas de incidencias (issues).
-//1. endpoint que registra una nueva incidencia.
+//1. end-point que registra una nueva incidencia.
 app.post('/issue', authUser, newIssueController); // issue
 //2. end-point que devuelve las issues
 // Ej: http://localhost:3000/issues?city=madrid&hood=chueca&status=active
