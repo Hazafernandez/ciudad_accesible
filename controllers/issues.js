@@ -132,9 +132,44 @@ const updateIssueController = async (req, res, next) => {
   }
 };
 
+//obtener ciudades
+const getCitiesController = async (req, res, next) => {
+  try {
+    const issues = await getAllIssues(req);
+    const allCities = issues.map((issue) => issue.city);
+    const cities = [...new Set(allCities)];
+
+    res.send({
+      status: 'ok',
+      data: cities,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//obtener barrios
+const getHoodsControler = async (req, res, next) => {
+  try {
+    console.log('req.query', req.query);
+    const issues = await getAllIssues(req);
+    const allHoods = issues.map((issue) => issue.hood);
+    const hoods = [...new Set(allHoods)];
+
+    res.send({
+      status: 'ok',
+      data: hoods,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getIssuesController,
   getSingleIssueController,
   newIssueController,
   updateIssueController,
+  getCitiesController,
+  getHoodsControler,
 };

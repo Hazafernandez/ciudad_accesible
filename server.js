@@ -18,6 +18,8 @@ const {
   getSingleIssueController,
   newIssueController,
   updateIssueController,
+  getCitiesController,
+  getHoodsControler,
 } = require('./controllers/issues');
 
 const { authUser } = require('./middlewares/auth');
@@ -57,6 +59,10 @@ app.get('/issues', getIssuesController);
 app.get('/issue/:id', getSingleIssueController);
 //4. end-point que actualiza el estado de la incidencia(resuelto/pendiente)
 app.put('/issue/:id', authUser, updateIssueController);
+//5. end-point que devuelve todas las ciudades con incidencias registradas.
+app.get(`/cities`, getCitiesController);
+//6. end-point que devuelve los barrios de una ciudad en concreto.
+app.get(`/hoods`, getHoodsControler);
 
 // Like a una incidencia
 // POST - /likes/:id/votes ✅
