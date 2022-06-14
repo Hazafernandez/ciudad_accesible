@@ -138,6 +138,7 @@ const getCitiesController = async (req, res, next) => {
     const issues = await getAllIssues(req);
     const allCities = issues.map((issue) => issue.city);
     const cities = [...new Set(allCities)];
+    cities.sort();
 
     res.send({
       status: 'ok',
@@ -155,6 +156,7 @@ const getHoodsControler = async (req, res, next) => {
     const issues = await getAllIssues(req);
     const allHoods = issues.map((issue) => issue.hood);
     const hoods = [...new Set(allHoods)];
+    hoods.sort();
 
     res.send({
       status: 'ok',
