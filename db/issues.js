@@ -134,9 +134,34 @@ const updateIssue = async (id, status) => {
   }
 };
 
+// get issue por city and hood
+const getIssuesByCityAndHood = async (city, hood) => {
+  let connection;
+  try {
+    connection = await getConnection();
+
+    const [result] = await connection.query(
+      `
+    SELECT * FROM issues WHERE city=? AND hood=? 
+    `,
+      [city, hood]
+    );
+    if (result.length === 0) {
+      generateError(
+        `No hay incidencias de accesibilidad en el barrio ${hood} de la ciudad ${city}`,
+        404
+      );
+    }
+    return result[0];
+  } finally {
+    if (connection) connection.release();
+  }
+};
+
 module.exports = {
   createIssue,
   getAllIssues,
   getIssueById,
   updateIssue,
+  getIssuesByCityAndHood,
 };

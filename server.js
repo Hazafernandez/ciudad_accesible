@@ -63,6 +63,8 @@ app.put('/issue/:id', authUser, updateIssueController);
 app.get(`/cities`, getCitiesController);
 //6. end-point que devuelve los barrios de una ciudad en concreto.
 app.get(`/hoods`, getHoodsControler);
+//7. end-point que devuelve incidencia según ciudad y barrio.
+app.get();
 
 // Like a una incidencia
 // POST - /likes/:id/votes ✅
